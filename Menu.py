@@ -6,4 +6,4 @@ class Hotdog():
         self.sausage = sausage
         self.toppings = toppings
         self.sauce = sauce
-        self.side = side
+        self.side =side
