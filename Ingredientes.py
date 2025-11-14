@@ -23,14 +23,13 @@ class Side(Ingredient):
         super().__init__(name, type, size, unit)
 
 class Sauce(Ingredient):
-
-    def __init__(self,name,base,color):
-        super().__init__(name)
+    def __init__(self,name,type,size,unit,base,color):
+        super().__init__(name,type,size,unit)
         self.base = base
         self.color = color
 
 class Topping(Ingredient):
 
-    def __init__(self, name, type, presentation):
-        super().__init__(name, type)
+    def __init__(self, name, type,size,unit,presentation):
+        super().__init__(name, type,size,unit)
         self.presentation = presentation
