@@ -1,28 +1,37 @@
+from funciones import*
+from Ingredientes import *
+from Menu import *
+
+
 def main():
+    menu = construir_menu()
+    ingredientes=construir_ingredientes()
     
-    print("1. Gentión de Ingregientes\n 2. Gentión de Inventario\n 3. Gentión de Menu\n 4. Simular un día de ventas\n 5. Módulo de estadísticas\n 6. Salir")
-    opcion=input("Ingresa una opción:")
-    while opcion not in ["1", "2","3","4","5","6"]:
-        opcion=input("ERROR: Ingresa una opción:")
-    
-    if opcion=="1" :
-        print("Gestion de ingredientes")
-        gestion_ingredientes()
-    elif opcion=="2":
-        print("Gestion de inventario")
-        gestion_inventario ()
-    elif opcion=="3":
-        print("Gestion de menu")
-        gestion_menu ()
-    elif opcion=="4":
-        print("simular dia de ventas")
-    elif opcion=="5":
-        print("Módulo de estadísticas ")
+    while True: 
+        print("1. Gentión de Ingregientes\n 2. Gentión de Inventario\n 3. Gentión de Menu\n 4. Simular un día de ventas\n 5. Módulo de estadísticas\n 6. Salir")
+        opcion=input("Ingresa una opción:")
+        while opcion not in ["1", "2","3","4","5","6"]:
+            opcion=input("ERROR: Ingresa una opción:")
+        
+        if opcion=="1" :
+            print("Gestion de ingredientes")
+            gestion_ingredientes(ingredientes)
+        elif opcion=="2":
+            print("Gestion de inventario")
+            gestion_inventario (ingredientes)
+        elif opcion=="3":
+            print("Gestion de menu")
+            gestion_menu (menu)
+        elif opcion=="4":
+            print("simular dia de ventas")
+        elif opcion=="5":
+            print("Módulo de estadísticas ")
 
-    elif opcion=="6":
-        print("Salir")
+        elif opcion=="6":
+            print("Salir")
+            break
 
-def gestion_ingredientes ():
+def gestion_ingredientes (ingredientes):
     print("1. Listar todos los productos de una categoría\n 2. Listar todos los productos en esa categoría de un tipo\n 3. Agregar un ingrediente\n 4. Eliminar un ingrediente\n 5. Volver al menu principal")
     opcion_1=input("Ingresa una opción:")
     while opcion_1 not in ["1", "2","3","4","5"]:
@@ -30,16 +39,94 @@ def gestion_ingredientes ():
     
     if opcion_1=="1" :
         print("Listar todos los productos de una categoría")
+        print("1. Pan\n 2. Salchicha\n 3. Acompañante\n 4. Salsa\n 5. Topping")
+        Listado=input ("Ingresa el listado que quieres ver: ")
+        while Listado not in ["1", "2","3","4","5"]:
+            Listado=input("ERROR: Ingresa una opción:")
+        
+        Listado = int(Listado)
+        target_class = ""
+        if Listado == 1:
+            target_class = Bread
+        elif Listado == 2:
+            target_class = Sausage
+        elif Listado == 3:
+            target_class = Side
+        elif Listado == 4:
+            target_class = Sauce
+        elif Listado == 5:
+            target_class = Topping
+
+        if target_class:
+            found = False
+            for i in ingredientes:
+                if isinstance(i, target_class):
+                    i.mostrar()
+                    found = True
+            if not found:
+                print("No se encontraron ingredientes en esta categoría.")
+        
+        print()
+        print()
+
+#no se sabe que hacer acá
     elif opcion_1=="2":
         print("Listar todos los productos en esa categoría de un tipo")
+
     elif opcion_1=="3":
         print("Agregar un ingrediente")
+        print("1. Pan\n 2. Salchicha\n 3. Acompañante\n 4. Salsa\n 5. Topping")
+        Listado=input ("Ingresa el listado que quieres ver: ")
+        while Listado not in ["1", "2","3","4","5"]:
+            Listado=input("ERROR: Ingresa una opción:")
+
+        if Listado in["1","2","3"]:
+            name=input('Ingresa el nombre del ingrediente:' )
+            type=input("Ingresa el tipo del ingrediente: ")
+            size=input("Ingresa el tamaño del ingrediente: ")
+            unit=input("Ingresa la unidad del ingrediente: ")
+            if Listado == "1":
+                pan = Bread(name,type,size,unit)
+                ingredientes.append(pan)
+            elif Listado == "2":
+                salchicha=Sausage(name,type,size,unit)
+                ingredientes.append(salchicha)
+            elif Listado == "3":
+                acompañante=Side(name,type,size,unit)
+                ingredientes.append(acompañante)
+
+        elif Listado =="4":
+            name=input('Ingresa el nombre del ingrediente:' )
+            base=input('Ingresa la base del ingrediente:' )
+            color=input('Ingresa el color del ingrediente:' )
+            salsa=Sauce(name,"","","",base,color)
+            ingredientes.append(salsa)
+
+        elif Listado == "5":
+            name=input('Ingresa el nombre del ingrediente: ' )
+            type=input('Ingresa el tipo del ingrediente:' )
+            presentation=input('Ingresa la presentación del ingrediente:' )
+            topping=Topping(name,type,presentation)
+            ingredientes.append(topping)
+
+        print ('agregado correctamente')
+        
     elif opcion_1=="4":
         print("Eliminar un ingrediente")
-    elif opcion_1=="5":
-        print("Volver a menu principal")
+        for i, n in enumerate(ingredientes):
+            print(i, n.name)
 
-def gestion_inventario ():
+        borrar=input("Ingresa el numero del ingrediente que deseas eliminar")
+        while borrar.isnumeric() == False or int(borrar) not in range(0, len(ingredientes)):
+            borrar=input("Ingresa el numero del ingrediente que deseas eliminar")
+
+        ingredientes.pop(int(borrar))
+        print("Se eliminó correctamente")
+
+    elif opcion_1=="5":
+        pass
+
+def gestion_inventario (ingredientes):
     print("1. Visualizar todo el inventario\n 2. Buscar la existencia de un ingrediente específico\n 3. Listar las existencias de todos los ingredientes de una categoría\n 4. Actualizar la existencia de un producto específico\n 5. Volver al menu principal")
     opcion_2=input("Ingresa una opción:")
     while opcion_2 not in ["1", "2","3","4","5"]:
@@ -56,7 +143,7 @@ def gestion_inventario ():
     elif opcion_2=="5":
         print("Volver a menu principal")
 
-def gestion_menu ():
+def gestion_menu (menu):
     print("1. Ver la lista de hot dogs\n 2. Ver, para un hot dog específico, si hay suficiente inventario para venderlo\n 3. Agregar un nuevo hot dog\n 4. Eliminar un hot dog\n 5. VOlver al menu principal")
     opcion_3=input("Ingresa una opción:")
     while opcion_3 not in ["1", "2","3","4","5"]:

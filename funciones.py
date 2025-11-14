@@ -23,10 +23,11 @@ def llamada_api(url):
     else:
         print("Error con la carga de datos, intente de nuevo. \n")
 
-ingredientes = llamada_api(url_ingredientes)
-menu = llamada_api(url_menu)
+
+
 
 def construir_menu():
+    menu = llamada_api(url_menu)
     nuevo_menu=[]
     for i in menu:
         i = list(i.values())
@@ -40,8 +41,10 @@ def construir_menu():
         nuevo_menu.append(Hotdog)
     #forzar tolerante a la salsa
     #print(nuevo_menu)
+    return nuevo_menu
 
 def construir_ingredientes():
+    ingredientes = llamada_api(url_ingredientes)
     nuevos_ingredientes=[]
     for i in ingredientes:
         category=i["Categoria"]
@@ -52,24 +55,24 @@ def construir_ingredientes():
                 type=j["tipo"]
                 size=j["tamaño"]
                 unit=j["unidad"]
-                Bread (name,type,size,unit)
-                nuevos_ingredientes.append (Bread )
+                pan = Bread (name,type,size,unit)
+                nuevos_ingredientes.append (pan )
         elif category=="Salchicha":
             for j in opcion:
                 name=j["nombre"]
                 type=j["tipo"]
                 size=j["tamaño"]
                 unit=j["unidad"]
-                Sausage (name,type,size,unit)
-                nuevos_ingredientes.append (Sausage)
+                salchicha=Sausage (name,type,size,unit)
+                nuevos_ingredientes.append (salchicha)
         elif category=="Acompañante":
             for j in opcion:
                 name=j["nombre"]
                 type=j["tipo"]
                 size=j["tamaño"]
                 unit=j["unidad"]
-                Side(name,type,size,unit)
-                nuevos_ingredientes.append (Side)
+                acompañante=Side(name,type,size,unit)
+                nuevos_ingredientes.append (acompañante)
         elif category=="Salsa":
             for j in opcion:
                 name=j["nombre"]
@@ -78,8 +81,8 @@ def construir_ingredientes():
                 unit=''
                 base=j["base"]
                 color=j["color"]
-                Sauce(name,base,color,type,size,unit)
-                nuevos_ingredientes.append (Sauce)
+                salsa=Sauce(name,type,size,unit,base,color)
+                nuevos_ingredientes.append (salsa)
         elif category=="toppings":
            for j in opcion:
                 name=j["nombre"]
@@ -87,11 +90,12 @@ def construir_ingredientes():
                 size=''
                 unit=''
                 presentation=j["presentación"]
-                Topping(name,type,presentation,size,unit)
-                nuevos_ingredientes.append (Topping) 
+                toppings=Topping(name,type,presentation,size,unit)
+                nuevos_ingredientes.append (toppings) 
 
+    return nuevos_ingredientes
     #print(nuevos_ingredientes)
 
 
-construir_menu()
-construir_ingredientes()
+#construir_menu()
+#construir_ingredientes()
