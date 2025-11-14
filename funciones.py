@@ -29,19 +29,17 @@ menu = llamada_api(url_menu)
 def construir_menu():
     nuevo_menu=[]
     for i in menu:
-        name = i["nombre"]
-        bread = i["Pan"]
-        sausage = i["Salchicha"]
-        toppings = i["toppings"]
-        if 'Salsas' in menu:
-            sauce = i["Salsas"]
-        else:
-            sauce = i['salsas']
-        side = i["Acompañante"]
+        i = list(i.values())
+        name = i[0]
+        bread = i[1]
+        sausage = i[2]
+        toppings = i[3]
+        sauce = i[4]
+        side = i[5]
         Hotdog(name,bread,sausage,toppings,sauce,side)
         nuevo_menu.append(Hotdog)
     #forzar tolerante a la salsa
-    print(nuevo_menu)
+    #print(nuevo_menu)
 
 def construir_ingredientes():
     nuevos_ingredientes=[]
@@ -80,7 +78,7 @@ def construir_ingredientes():
                 unit=''
                 base=j["base"]
                 color=j["color"]
-                Sauce(name,base,color)
+                Sauce(name,base,color,type,size,unit)
                 nuevos_ingredientes.append (Sauce)
         elif category=="toppings":
            for j in opcion:
@@ -89,10 +87,10 @@ def construir_ingredientes():
                 size=''
                 unit=''
                 presentation=j["presentación"]
-                Topping(name,type,presentation)
+                Topping(name,type,presentation,size,unit)
                 nuevos_ingredientes.append (Topping) 
 
-    print(nuevos_ingredientes)
+    #print(nuevos_ingredientes)
 
 
 construir_menu()
