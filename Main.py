@@ -49,144 +49,50 @@ def main():
             break
 
 
-def gestion_inventario (ingredientes,inventario):
-    """"
-    Modulo 2 del programa
-    Recibe: Input para seleccionar opcion del modulo
-    Retorna: Output de cada opcion con todas sus funcionalidades 
+def gestion_menu (menu):
     """
+    Modulo 3 del programa
+    Recibe: Input de opciones del modulo
+    Retorna: Output de cada opcion del modulo
+    """
+    print(" 1. Ver la lista de hot dogs\n 2. Ver, para un hot dog específico, si hay suficiente inventario para venderlo\n 3. Agregar un nuevo hot dog\n 4. Eliminar un hot dog\n 5. Volver al menu principal\n")
+    opcion_3=input("Ingresa una opción: ")
+    while opcion_3 not in ["1", "2","3","4","5"]:
+        opcion_3=input("ERROR: Ingresa una opción: ")
 
-
-    print(" 1. Visualizar todo el inventario\n 2. Buscar la existencia de un ingrediente específico\n 3. Listar las existencias de todos los ingredientes de una categoría\n 4. Actualizar la existencia de un producto específico\n 5. Volver al menu principal\n")
-    
-    opcion_2=input("Ingresa una opción: ")
-    while opcion_2 not in ["1", "2","3","4","5"]:
-        opcion_2=input("ERROR: Ingresa una opción: ")
-    
-    if opcion_2=="1" :
+    if opcion_3=="1" :
         """
-        Opcion para visualizar todo el inventario.
+        Se llama al metodo mostrar de la clase Hotdog
         Recibe: Nada
-        Retorna: Todos los ingredientes enumerados junto con su cantidad
+        Retorna: Lista de hotdogs
         """
+        print("\nVer la lista de hot dogs\n")
 
-        print("\nVisualizar todo el inventario\n")
+        for h in menu:
+            h.mostrar()
 
-        for key,value in inventario.items():
-            print(f"{key}. {value[0].capitalize()}: {value[1]}")
+    elif opcion_3=="2":
+        print("\nVer, para un hot dog específico, si hay suficiente inventario para venderlo\n")
 
-        print("\n")
 
-    elif opcion_2=="2":
-        """
-        Esta opcion permite seleccionar un ingrediente del menu a partir de 
-        su numero y muestra la cantidad del mismo en el inventario
-        Recibe: Input de un numero de ingrediente
-        Retorna: Cantidad de dicho ingrediente
-        """
-        print("\nBuscar la existencia de un ingrediente específico\n")
-    
-        for i, n in enumerate(ingredientes):
+    elif opcion_3=="3":
+        print("\nAgregar un nuevo hot dog\n")
+    elif opcion_3=="4":
+        print("\nEliminar un hot dog\n")
+
+        print("\nEliminar un ingrediente\n")
+        for i, n in enumerate(menu):
             print(f"{i+1}. {n.name.capitalize()}")
 
         print("\n")
+        borrar=input("Ingresa el numero del hotdog que deseas eliminar: ")
+        while borrar.isnumeric() == False or int(borrar) not in range(0, len(menu)+1):
+            borrar=input("ERROR. Ingresa el numero del hotdog que deseas eliminar: ")
 
-        num = input("Ingrese el numero del ingrediente a verificar el inventario: ")
-        while num.isnumeric() == False or int(num) not in range(0, len(ingredientes)+1):
-            num=input("ERROR. Ingresa el numero del ingrediente que verificar: ")
+        menu.pop(int(borrar)-1)
+        print("\nEliminado correctamente!\n")
 
-        for key,value in inventario.items():
-            if key == int(num):
-                print(f"\n{value[0].capitalize()}: {value[1]}")
-        print("\n")
-
-    elif opcion_2=="3":
-        """
-        Esta opcion muestra el inventario por categoria
-        Recibe: Input sobre categoria deseada
-        Retorna: Cantidad de cada elemento perteneciente a la categoria
-        """
-        ingcat = {}
-        print("\nListar las existencias de todos los ingredientes de una categoría\n")
-
-        print(" 1. Pan\n 2. Salchicha\n 3. Acompañante\n 4. Salsa\n 5. Topping\n")
-        Listado=input ("Ingresa el listado que quieres ver: ")
-        while Listado not in ["1", "2","3","4","5"]:
-            Listado=input("ERROR: Ingresa una opción: ")
-
-        Listado = int(Listado)
-        target_class = ""
-        if Listado == 1:
-            target_class = Bread
-        elif Listado == 2:
-            target_class = Sausage
-        elif Listado == 3:
-            target_class = Side
-        elif Listado == 4:
-            target_class = Sauce
-        elif Listado == 5:
-            target_class = Topping
-
-        if target_class:
-            found = False
-            for i in ingredientes:
-                if isinstance(i, target_class):
-                    for key, value in inventario.items():
-                        if value[0] == i.name:
-                            ingcat[value[0]] = value[1]
-                            found = True
-                if not found:
-                    print("\nNo se encontraron ingredientes en esta categoría.\n")
-        print("\n")
-        for key,value in ingcat.items():
-            print(f"{key.capitalize()}: {value}")
-        print("\n")
-
-    elif opcion_2=="4":
-        """"
-        Esta opcion permite seleccionar un ingrediente a partir de su numero
-        y luego modificar su cantidad (adicionar o restar)
-        """
-        print("\nActualizar la existencia de un producto específico\n")
-
-        for i, n in enumerate(ingredientes):
-            print(f"{i+1}. {n.name.capitalize()}")
-
-        print("\n")
-
-        num = input("Ingrese el numero del ingrediente a modificar el inventario: ")
-        while num.isnumeric() == False or int(num) not in range(0, len(ingredientes)+1):
-            num=input("ERROR. Ingresa el numero del ingrediente que deseas modificar: ")
-
-        print("\nDeseas sumar o restar inventario?\n"
-              "1. Sumar\n"
-              "2. Restar\n")
-        opt = input("Ingresa la opcion deseada: ")
-
-        while opt.isnumeric() == False and opt != ["1","2"]:
-            print("ERROR. Intente de nuevo.")
-            opt = input("Ingresa la opcion deseada: ")
-
-        print("\nCuantas unidades/porciones deseas?\n")
-        unidades = input("Unidades/porciones deseadas: ")
-
-        while unidades.isnumeric() == False or unidades == "0":
-            print("ERROR. Intente de nuevo.")
-            unidades = input("Unidades/porciones deseadas: ")
-
-        if opt == "1":
-            for key,value in inventario.items():
-                if key == int(num):
-                    value[1] += int(unidades)
-            print("\nAdicion exitosa!\n")
-        elif opt == "2":
-            for key,value in inventario.items():
-                if key == int(num):
-                    value[1] -= int(unidades)
-            print("\nSustraccion exitosa!\n")
-            
-
-    elif opcion_2=="5":
+    elif opcion_3=="5":
         print("\nVolver a menu principal\n")
 
 main()
