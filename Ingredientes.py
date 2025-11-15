@@ -12,7 +12,9 @@ class Bread(Ingredient):
         super().__init__(name, type, size, unit)
 
     def mostrar(self):
-        print(self.name, self.type, self.size, self.unit)
+        print(f"\n--Pan {self.name}--\n" \
+        f"Tipo: {self.type}\n" \
+        f"Unidad:{self.unit}\n")
 
 class Sausage(Ingredient):
 
