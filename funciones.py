@@ -288,10 +288,10 @@ def gestion_ingredientes (ingredientes):
         """
         print("\nEliminar un ingrediente\n")
         for i, n in enumerate(ingredientes):
-            print(i, n.name)
+            print(f"{i+1}. {n.name.capitalize()}")
 
         borrar=input("Ingresa el numero del ingrediente que deseas eliminar: ")
-        while borrar.isnumeric() == False or int(borrar) not in range(0, len(ingredientes)):
+        while borrar.isnumeric() == False or int(borrar) not in range(0, len(ingredientes)+1):
             borrar=input("ERROR. Ingresa el numero del ingrediente que deseas eliminar: ")
 
         ingredientes.pop(int(borrar))
@@ -303,27 +303,7 @@ def gestion_ingredientes (ingredientes):
         """
         pass
 
-def gestion_inventario (ingredientes):
-    """"
-    Modulo 2 del programa
-    Recibe: Input para seleccionar opcion del modulo
-    Retorna: Output de cada opcion con todas sus funcionalidades 
-    """
-    print(" 1. Visualizar todo el inventario\n 2. Buscar la existencia de un ingrediente específico\n 3. Listar las existencias de todos los ingredientes de una categoría\n 4. Actualizar la existencia de un producto específico\n 5. Volver al menu principal\n")
-    opcion_2=input("Ingresa una opción: ")
-    while opcion_2 not in ["1", "2","3","4","5"]:
-        opcion_2=input("ERROR: Ingresa una opción: ")
-    
-    if opcion_2=="1" :
-        print("Visualizar todo el inventario")
-    elif opcion_2=="2":
-        print("Buscar la existencia de un ingrediente específico")
-    elif opcion_2=="3":
-        print("Listar las existencias de todos los ingredientes de una categoría")
-    elif opcion_2=="4":
-        print("Actualizar la existencia de un producto específico")
-    elif opcion_2=="5":
-        print("Volver a menu principal")
+
 
 def gestion_menu (menu):
     """
