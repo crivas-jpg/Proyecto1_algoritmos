@@ -14,6 +14,7 @@ class Bread(Ingredient):
     def mostrar(self):
         print(f"\n--Pan {self.name}--\n" \
         f"Tipo: {self.type}\n" \
+        f"Tamaño: {self.size}\n" \
         f"Unidad:{self.unit}\n")
 
 class Sausage(Ingredient):
@@ -22,7 +23,10 @@ class Sausage(Ingredient):
         super().__init__(name, type, size, unit)
 
     def mostrar(self):
-        print(self.name, self.type, self.size, self.unit)
+        print(f"\n--Salchicha {self.name}--\n"
+              f"Tipo: {self.type}\n"
+              f"Tamaño: {self.size}\n"
+              f"Unidad: {self.unit}\n")
 
 class Side(Ingredient):
 
@@ -30,22 +34,30 @@ class Side(Ingredient):
         super().__init__(name, type, size, unit)
 
     def mostrar(self):
-        print(self.name, self.type, self.size, self.unit)
+        print(f"\n--Acompañante: {self.name}--\n"
+              f"Tipo: {self.type}\n"
+              f"Tamaño: {self.size}\n"
+              f"Unidad: {self.unit}\n")
 
 class Sauce(Ingredient):
-    def __init__(self,name,type,size,unit,base,color):
-        super().__init__(name,type,size,unit)
+    def __init__(self,name,base,color):
+        self.name = name
         self.base = base
         self.color = color
     
     def mostrar(self):
-        print(self.name, self.base, self.color)
+        print(f"\n--Salsa {self.name}--\n"
+              f"Base: {self.base}\n"
+              f"Color: {self.color}\n")
 
 class Topping(Ingredient):
 
-    def __init__(self, name, type,size,unit,presentation):
-        super().__init__(name, type,size,unit)
+    def __init__(self, name, type,presentation):
+        self.name = name
+        self.type = type
         self.presentation = presentation
 
     def mostrar(self):
-        print(self.name, self.type, self.presentation)
+        print(f"\n--Topping: {self.name}--\n"
+              f"Tipo: {self.type}\n"
+              f"Presentación: {self.presentation}\n")
