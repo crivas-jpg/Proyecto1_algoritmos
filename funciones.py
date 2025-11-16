@@ -1,6 +1,8 @@
 import requests
+import json
 from Hotdog import *
 from Ingredientes import *
+import json
 
 # urls de los ingredientes y el menu
 url_ingredientes = "http://raw.githubusercontent.com/FernandoSapient/BPTSP05_2526-1/refs/heads/main/ingredientes.json"
@@ -106,19 +108,26 @@ def construir_ingredientes():
 
 def crear_hotdog(menu, ingredientes, inventario):
     """
-    Interfaz para crear un nuevo Hotdog seleccionando ingredientes existentes.
-    - Pide nombre del hotdog
-    - Muestra cada categoría (Pan, Salchicha, Acompañante, Salsa, Topping)
-    - El usuario selecciona el número correspondiente del listado filtrado
-    - Crea y agrega el hotdog al `menu`
+    Esta funcion permite crear un nuevo hotdog a partir de los ingredintes existentes
+    Recibe: Inputs para: nombre del hotdog y seleccion de ingredientes
+    Para esto se muestran (enumerados) cada instancia de cada categoria
+    (por ejmplo, se listan todos los panes y se le pide al usuario que seleccione uno)
+    Retorna: Nuevo hotdog agregado al menu o None si se cancela el registro
+    El hotdog creado es agregado al menu
     """
     from Hotdog import Hotdog
     print("\nCrear un nuevo hot dog\n")
     name = input("Nombre del nuevo hotdog: ").strip()
+    # validar
     while not name:
         name = input("Nombre no puede estar vacío. Ingresa nombre: ").strip()
 
     def elegir_por_clase(cls, prompt, allow_skip=False):
+        """
+        Esta funcion muestra las opciones disponibles de una clase dada (categoria de ingrediente)
+        Recibe: Clase del ingrediente a mostrar, prompt para el input, allow_skip para permitir omitir la seleccion
+        Retorna: Instancia seleccionada o None si se omite
+        """
         opciones = [i for i in ingredientes if isinstance(i, cls)]
         if not opciones:
             print(f"No hay opciones disponibles para {prompt}.")
@@ -130,6 +139,7 @@ def crear_hotdog(menu, ingredientes, inventario):
             print("0. Omitir")
 
         num = input(f"Ingresa el número de {prompt}: ")
+        # mapeo
         valid_range = list(map(str, range(1, len(opciones)+1)))
         if allow_skip:
             valid_range.append("0")
@@ -140,20 +150,30 @@ def crear_hotdog(menu, ingredientes, inventario):
         return opciones[int(num)-1]
 
     def buscar_en_inventario_por_nombre(nombre, inventario):
+        """
+        Permite buscar un ingrediente en el inventario a partir de su nombre
+        Recibe: Nombre del ingrediente a buscar
+        Retorna: Numero del ingregiente en el inventario (key) y su cantidad
+        """
         for k, v in inventario.items():
             if v[0].lower() == nombre.lower():
                 return k, v[1]
         return None, None
 
     def validar_seleccion_e_inventario(obj, cls_name):
-        """Valida que el objeto exista en el inventario y tenga al menos 1 unidad.
-        Si no existe, da opción de seleccionar otro o cancelar. Si existe pero qty<1, muestra advertencia y pide confirmación."""
+        """
+        Valida que el objeto exista en el inventario y tenga al menos 1 unidad
+        Si no existe, da opción de seleccionar otro o cancelar
+        Si existe pero la cantidad es menor a 1, muestra advertencia y pide confirmación
+        Recibe: objeto seleccionado y nombre de la clase (categoria)
+        Retorna: 'OK' si todo bien, 'REPLACE' para repetir seleccion, 'CANCEL' para cancelar registro
+        """
         if obj is None:
-            return None  # caller will decide
+            return None  
         nombre = getattr(obj, 'name', str(obj))
         key, qty = buscar_en_inventario_por_nombre(nombre, inventario)
         if key is None:
-            print(f"No se encontró '{nombre}' en el inventario.")
+            print(f"\nNo se encontró '{nombre}' en el inventario\n")
             opt = input("Deseas seleccionar otro ingrediente (s) o cancelar el registro (c)? (s/c): ")
             while opt.lower() not in ('s', 'c', 'si', 'n') and opt.lower() not in ('s','c'):
                 opt = input("Entrada inválida. Escribe 's' para seleccionar otro o 'c' para cancelar: ")
@@ -162,7 +182,7 @@ def crear_hotdog(menu, ingredientes, inventario):
             else:
                 return 'CANCEL'
         if qty < 1:
-            print(f"Advertencia: No hay inventario suficiente de '{nombre}' (cantidad = {qty}).")
+            print(f"Advertencia! No hay inventario suficiente de '{nombre}' (cantidad = {qty}).\n")
             opt = input("Deseas continuar con esta selección a pesar de todo? (s/n): ")
             while opt.lower() not in ('s', 'n', 'si', 'no'):
                 opt = input("Entrada inválida. (s/n): ")
@@ -173,11 +193,18 @@ def crear_hotdog(menu, ingredientes, inventario):
         return 'OK'
 
     # Selección iterativa con validaciones
-    # Pan (obligatorio)
     while True:
+        """
+        Este bucle permite seleccionar el ingrediente, validando su existencia en inventario
+        Se llaman a las funciones elegir_por_clase para listar todas las opciones de una categoria
+        validar_seleccion_e_inventario para validar existencia y cantidad en inventario
+        Sirve para confrimar que todas las condiciones se cumplan antes de proceder a crear el hotdog
+        Es conveniente usar el while para que el programa siga pidiendo inputs hasta que sean logicos
+        """
+        # Pan (obligatorio)
         bread = elegir_por_clase(Bread, "Pan")
         if bread is None:
-            print("No se pueden crear hotdogs sin pan. Cancelando creación.")
+            print("\nNo se pueden crear hotdogs sin pan. Cancelando creación.\n")
             return None
         r = validar_seleccion_e_inventario(bread, 'Pan')
         if r == 'OK':
@@ -235,6 +262,7 @@ def crear_hotdog(menu, ingredientes, inventario):
             print("Creación cancelada por el usuario.")
             return None
 
+    # una vez se supera el while se crea el nuevo hotdog
     nuevo = Hotdog(name, bread, sausage, topping, sauce, side)
 
     # Validar longitudes mediante método de la clase Hotdog (pide confirmación si no coinciden)
@@ -244,19 +272,24 @@ def crear_hotdog(menu, ingredientes, inventario):
         ok_long = nuevo.verificar_longitud()
 
     if not ok_long:
-        print("No se confirmó la longitud del hotdog. Registro cancelado.")
+        print("\nNo se confirmó la longitud del hotdog. Registro cancelado.\n")
         return None
 
-    # Verificar inventario final para todos los ingredientes seleccionados (si alguno queda sin stock, avisar)
+    # Verificar inventario final para todos los ingredientes seleccionados 
+    # (si alguno queda sin stock, avisar)
     faltantes = []
     sin_stock = []
-    seleccionados = [nuevo.bread, nuevo.sausage]
-    for optional in (nuevo.sides, nuevo.sauces, nuevo.toppings):
+    seleccionados = [nuevo.bread, nuevo.sausage] # los que van ajuro
+    for optional in (nuevo.sides, nuevo.sauces, nuevo.toppings): # pueden ir o no
         if optional is None:
             continue
         seleccionados.append(optional)
 
     for item in seleccionados:
+        """
+         Esta funcion busca un ingrediente en el inventario por nombre
+         Sirve para validar existencia y cantidad en inventario de los elementos opcionales de un hotdog
+         """
         if item is None:
             continue
         # if list, iterate
@@ -273,14 +306,20 @@ def crear_hotdog(menu, ingredientes, inventario):
                 sin_stock.append((nombre, qty))
 
     if faltantes:
-        print("\nAdvertencia: los siguientes ingredientes no se encontraron en inventario:")
+        """
+        Esta seccion muestra los ingredientes faltantes en el inventario 
+        """
+        print("\nAdvertencia: los siguientes ingredientes no se encontraron en inventario.\n")
         for f in faltantes:
             print(f" - {f}")
-        print("Se cancelará el registro para que el usuario seleccione ingredientes existentes.")
+        print("\nSe cancelará el registro para que el usuario seleccione ingredientes existentes.\n")
         return None
 
     if sin_stock:
-        print("\nAdvertencia: los siguientes ingredientes no tienen stock suficiente:")
+        """
+         Esta seccion muestra los ingredientes sin stock (cantidad menor a 1) en el inventario
+         """
+        print("\nAdvertencia! los siguientes ingredientes no tienen stock suficiente.\n")
         for s in sin_stock:
             print(f" - {s[0]} (cantidad = {s[1]})")
         opt = input("Deseas continuar y agregar el hotdog al menú igual? (s/n): ")
@@ -291,18 +330,24 @@ def crear_hotdog(menu, ingredientes, inventario):
             return None
 
     menu.append(nuevo)
-    print(f"\nHotdog '{name}' creado y agregado al menú satisfactoriamente.\n")
+    print(f"\nHotdog '{name}' creado y agregado al menú exitosamente!\n")
     return nuevo
 
 
 def verificar_inventario_hotdog(hotdog, ingredientes, inventario):
     """
-    Verifica si hay suficiente inventario para preparar un `hotdog`.
-    - Comprueba que cada ingrediente del hotdog exista en `inventario` y tenga al menos 1 unidad.
-    - Valida longitudes entre pan y salchicha y pide confirmación si difieren.
-    Retorna True si todo está bien, False en caso contrario.
+    Esta funcion verifica si hay inventario suficiente para crear un hotdog
+    Revisa que cada ingrediente del hotdog exista en *inventario* y tenga al menos 1 unidad/porcion
+    Valida longitudes entre pan y salchicha llamando a la funcion verificar_longitud de la clase Hotdog
+    Recibe: Numero de hotdog a revisar
+    Retorna: True si todo está bien, False en caso contrario
     """
     def buscar_en_inventario_por_nombre(nombre):
+        """
+        Esta funcion busca un ingrediente en el inventario por nombre
+        Recibe: Nombre del ingrediente a buscar
+        Retorna: Numero del ingregiente en el inventario (key) y su cantidad 
+        """
         for k, v in inventario.items():
             if v[0].lower() == nombre.lower():
                 return k, v[1]
@@ -332,8 +377,8 @@ def verificar_inventario_hotdog(hotdog, ingredientes, inventario):
     # Validar longitudes (pedir confirmación si no coinciden)
     try:
         if not hotdog.verificar_longitud():
-            print("\nAdvertencia: la longitud o unidad del pan y la salchicha no coinciden.")
-            resp = input("¿Deseas continuar con esta venta igualmente? (s/n): ").strip().lower()
+            print("\nAdvertencia! la longitud o unidad del pan y la salchicha no coinciden.\n")
+            resp = input("Deseas continuar con esta venta igualmente? (s/n): ").strip().lower()
             while resp not in ('s', 'n', 'si', 'no'):
                 resp = input("Entrada inválida. (s/n): ").strip().lower()
             if not resp.startswith('s'):
@@ -342,23 +387,23 @@ def verificar_inventario_hotdog(hotdog, ingredientes, inventario):
         pass
 
     if faltantes:
-        print("\nNo se encontraron los siguientes ingredientes en inventario:")
+        print("\nNo se encontraron los siguientes ingredientes en inventario.\n")
         for f in faltantes:
             print(f" - {f}")
         return False
 
     if sin_stock:
-        print("\nLos siguientes ingredientes no tienen stock suficiente:")
+        print("\nLos siguientes ingredientes no tienen stock suficiente:\n")
         for s in sin_stock:
             print(f" - {s[0]} (cantidad = {s[1]})")
         return False
 
-    print("\nHay suficiente inventario para vender este hotdog.")
+    print("\nHay suficiente inventario para vender este hotdog.\n")
     return True
 
 
 
-def gestion_ingredientes (ingredientes):
+def gestion_ingredientes (ingredientes, menu, inventario):
     """
     Modulo 1 del programa.
     Recibe: Input para seleccionar opciones del modulo
@@ -545,11 +590,83 @@ def gestion_ingredientes (ingredientes):
 
         print("\n")
         borrar=input("Ingresa el numero del ingrediente que deseas eliminar: ")
-        while borrar.isnumeric() == False or int(borrar) not in range(0, len(ingredientes)+1):
+        while borrar.isnumeric() == False or int(borrar) not in range(1, len(ingredientes)+1):
             borrar=input("ERROR. Ingresa el numero del ingrediente que deseas eliminar: ")
 
-        ingredientes.pop(int(borrar)-1)
-        print("\nEliminado correctamente!\n")
+        idx = int(borrar)-1
+        ingrediente_obj = ingredientes[idx]
+
+        """ 
+        Determinar hot dogs que usan este ingrediente 
+        (comparando por nombre)
+        """
+        def uses_ingredient(hotdog, ing_name):
+            def name_of(x):
+                try:
+                    return getattr(x, 'name', str(x)).lower()
+                except Exception:
+                    return str(x).lower()
+
+            ing_name_l = ing_name.lower()
+            if name_of(hotdog.bread) == ing_name_l:
+                return True
+            if name_of(hotdog.sausage) == ing_name_l:
+                return True
+            # sides, sauces, toppings pueden ser objetos o listas o strings
+            for attr in ('sides', 'sauces', 'toppings'):
+                val = getattr(hotdog, attr, None)
+                if val is None:
+                    continue
+                if isinstance(val, list):
+                    for it in val:
+                        if name_of(it) == ing_name_l:
+                            return True
+                else:
+                    if name_of(val) == ing_name_l:
+                        return True
+            return False
+
+        ing_name = getattr(ingrediente_obj, 'name', str(ingrediente_obj))
+        hotdogs_using = [h for h in menu if uses_ingredient(h, ing_name)]
+
+        if hotdogs_using:
+            print(f"\nEl ingrediente '{ing_name}' está siendo usado por {len(hotdogs_using)} hotdog(s) en el menu.\n")
+            for h in hotdogs_using:
+                print(f" - {h.name}")
+            resp = input("Eliminar este ingrediente también eliminará los hot dogs listados. Confirma la acción? (s/n): ").strip().lower()
+            while resp not in ('s','n','si','no'):
+                resp = input("Entrada inválida. Responde 's' para sí o 'n' para no: ").strip().lower()
+            if not resp.startswith('s'):
+                print("\nOperación cancelada. No se eliminó nada.\n")
+                return
+            # Se eliminan ingrediente/s y hotdogs relacionados
+            # Eliminar hotdogs del menú
+            removed_names = [h.name for h in hotdogs_using]
+            menu[:] = [h for h in menu if h not in hotdogs_using]
+            # Eliminar ingrediente de la lista de ingredientes
+            ingredientes.pop(idx)
+            # Eliminar entrada del inventario que corresponda a este ingrediente
+            keys_to_remove = [k for k,v in inventario.items() if v[0].lower() == ing_name.lower()]
+            for k in keys_to_remove:
+                inventario.pop(k, None)
+            print("\nIngrediente y hot dogs relacionados eliminados correctamente!\n")
+            for n in removed_names:
+                print(f" - {n}")
+            print("\n")
+        else:
+            # No hay hotdogs usando el ingrediente: confirmar eliminación 
+            resp = input(f"¿Deseas eliminar el ingrediente '{ing_name}'? (s/n): ").strip().lower()
+            while resp not in ('s','n','si','no'):
+                resp = input("Entrada inválida. Responde 's' para sí o 'n' para no: ").strip().lower()
+            if not resp.startswith('s'):
+                print("\nOperación cancelada. No se eliminó nada.\n")
+                return
+            ingredientes.pop(idx)
+            # Eliminar del inventario
+            keys_to_remove = [k for k,v in inventario.items() if v[0].lower() == ing_name.lower()]
+            for k in keys_to_remove:
+                inventario.pop(k, None)
+            print("\nEliminado correctamente!\n")
 
     elif opcion_1=="5":
         """
@@ -703,6 +820,7 @@ def gestion_menu (menu,ingredientes,inventario):
     Recibe: Input de opciones del modulo
     Retorna: Output de cada opcion del modulo
     """
+
     print(" 1. Ver la lista de hot dogs\n 2. Ver, para un hot dog específico, si hay suficiente inventario para venderlo\n 3. Agregar un nuevo hot dog\n 4. Eliminar un hot dog\n 5. Volver al menu principal\n")
     opcion_3=input("Ingresa una opción: ")
     while opcion_3 not in ["1", "2","3","4","5"]:
@@ -722,7 +840,13 @@ def gestion_menu (menu,ingredientes,inventario):
     elif opcion_3=="2":
         print("\nVer, para un hot dog específico, si hay suficiente inventario para venderlo\n")
 
-        # Listar hotdogs y permitir seleccionar uno para verificar inventario
+        """
+        Esta opcion muestra los hotdogs del menu enumarandolos y le permite al usuario
+        seleccionar uno y verificar si hay inventario suficiente para venderlo
+        Criterio: el inventario debe ser mayor o igual a 1 para poder venderlo
+        Recibe: Input del numero del hotdog a verificar
+        Retorna: Mensaje de si hay o no inventario suficiente
+        """
         for i, h in enumerate(menu):
             print(f"{i+1}. {h.name.capitalize()}")
 
@@ -732,17 +856,21 @@ def gestion_menu (menu,ingredientes,inventario):
             num = input("ERROR. Ingresa el numero del hotdog que verificar: ")
 
         hot = menu[int(num)-1]
-        # Usar la función de funciones.py para verificar inventario
         verificar_inventario_hotdog(hot, ingredientes, inventario)
         
 
     elif opcion_3=="3":
+        """
+        Esta opcion agrega un nuevo hotdog al menu
+        NOTA: usa la funcion crear_hotdog
+        Recibe: Input de todos los atributos del hotdog
+        Retorna: Mensaje de confirmacion
+        """
         print("\nAgregar un nuevo hot dog\n")
-        # Llamar a la función que crea un hotdog interactivo
         try:
             crear_hotdog(menu, ingredientes, inventario)
         except Exception as e:
-            print(f"Ocurrió un error al crear el hotdog: {e}")
+            print(f"\nOcurrió un error al crear el hotdog: {e}\n")
 
 
 
@@ -764,10 +892,10 @@ def gestion_menu (menu,ingredientes,inventario):
 
         idx = int(borrar)-1
         hot = menu[idx]
-        # verificar si hay suficiente inventario para seguir vendiendo este hotdog
+        # Verificar si hay suficiente inventario para seguir vendiendo este hotdog
         puede_vender = verificar_inventario_hotdog(hot, ingredientes, inventario)
         if puede_vender:
-            # si hay inventario, pedir confirmación antes de eliminar
+            # Si hay inventario, pedir confirmación antes de eliminar
             resp = input("Advertencia: aún hay inventario suficiente para vender este hotdog.\n¿Deseas eliminarlo de todas formas? (s/n): ").strip().lower()
             while resp not in ('s','n','si','no'):
                 resp = input("Entrada inválida. Responde 's' para sí o 'n' para no: ").strip().lower()
@@ -777,7 +905,7 @@ def gestion_menu (menu,ingredientes,inventario):
                 menu.pop(idx)
                 print("\nEliminado correctamente!\n")
         else:
-            # no hay inventario suficiente -> eliminar sin preguntar
+            # Si no ha inventario se elimina de una
             menu.pop(idx)
             print("\nEliminado correctamente!\n")
 
@@ -785,3 +913,80 @@ def gestion_menu (menu,ingredientes,inventario):
         print("\nVolver a menu principal\n")
 
 
+def escribrir_datos_json(file,ingredientes):
+    """
+    Esta funcion transforma la lista de ingredientes local (que parte de la informacion de la API)
+    en un archivo json conservando el mismo formato de la api
+    Recibe: nombre del archivo donde se guardara el json y la lista de ingredientes local
+    Retorna: Nada. Crea el archivo json
+    """
+
+    # Agrupar por categoría de la misma manera que la api
+    categorias = {
+        "Pan": [],
+        "Salchicha": [],
+        "Acompañante": [],
+        "Salsa": [],
+        "toppings": []
+    }
+
+    for ing in ingredientes:
+        # Declarar atributos de cada ingrediente de acuerdo a su clase
+        try:
+            if isinstance(ing, Bread):
+                categorias["Pan"].append({
+                    "nombre": ing.name,
+                    "tipo": ing.type,
+                    "tamaño": ing.size,
+                    "unidad": ing.unit
+                })
+            elif isinstance(ing, Sausage):
+                categorias["Salchicha"].append({
+                    "nombre": ing.name,
+                    "tipo": ing.type,
+                    "tamaño": ing.size,
+                    "unidad": ing.unit
+                })
+            elif isinstance(ing, Side):
+                categorias["Acompañante"].append({
+                    "nombre": ing.name,
+                    "tipo": ing.type,
+                    "tamaño": ing.size,
+                    "unidad": ing.unit
+                })
+            elif isinstance(ing, Sauce):
+                categorias["Salsa"].append({
+                    "nombre": ing.name,
+                    "base": getattr(ing, 'base', None),
+                    "color": getattr(ing, 'color', None)
+                })
+            elif isinstance(ing, Topping):
+                categorias["toppings"].append({
+                    "nombre": ing.name,
+                    "tipo": getattr(ing, 'type', None),
+                    "presentación": getattr(ing, 'presentation', None)
+                })
+            else:
+                # Fallback genérico: intentar serializar atributos conocidos
+                d = {"nombre": getattr(ing, 'name', str(ing))}
+                if hasattr(ing, 'type'):
+                    d['tipo'] = getattr(ing, 'type')
+                if hasattr(ing, 'size'):
+                    d['tamaño'] = getattr(ing, 'size')
+                if hasattr(ing, 'unit'):
+                    d['unidad'] = getattr(ing, 'unit')
+                categorias.setdefault('Otros', []).append(d)
+        except Exception:
+            continue
+
+    # Construir la lista de categorías como la api
+    salida = []
+    for cat in ("Pan", "Salchicha", "Acompañante", "Salsa", "toppings"):
+        salida.append({"Categoria": cat, "Opciones": categorias.get(cat, [])})
+
+
+    try:
+        with open(file, 'w', encoding='utf-8') as f:
+            json.dump(salida, f, indent=2)
+    except Exception as e:
+        print(f"Error al escribir JSON en {file}: {e}")

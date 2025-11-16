@@ -1,0 +1,292 @@
+[
+  {
+    "Categoria": "Pan",
+    "Opciones": [
+      {
+        "nombre": "simple",
+        "tipo": "blanco",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "integral",
+        "tipo": "trigo entero",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "especial",
+        "tipo": "queso",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "grande",
+        "tipo": "blanco",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "italiano",
+        "tipo": "oregano",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "sin gluten",
+        "tipo": "arroz",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "saludable",
+        "tipo": "avena",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "gigante",
+        "tipo": "ajonjolí",
+        "tamaño": 12,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "submarino",
+        "tipo": "blanco",
+        "tamaño": 12,
+        "unidad": "pulgadas"
+      }
+    ]
+  },
+  {
+    "Categoria": "Salchicha",
+    "Opciones": [
+      {
+        "nombre": "weiner",
+        "tipo": "cerdo",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "breakfast",
+        "tipo": "res",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "alemana",
+        "tipo": "cerdo",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "francesa",
+        "tipo": "res",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "polaca",
+        "tipo": "mezcla",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "light",
+        "tipo": "pollo",
+        "tamaño": 6,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "boudin",
+        "tipo": "pollo",
+        "tamaño": 9,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "vienna",
+        "tipo": "mezcla",
+        "tamaño": 12,
+        "unidad": "pulgadas"
+      },
+      {
+        "nombre": "salicce",
+        "tipo": "cerdo",
+        "tamaño": 12,
+        "unidad": "pulgadas"
+      }
+    ]
+  },
+  {
+    "Categoria": "Acompañante",
+    "Opciones": [
+      {
+        "nombre": "saladas pequeñas",
+        "tipo": "Papas chip",
+        "tamaño": 200,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "saladas medianas",
+        "tipo": "Papas chip",
+        "tamaño": 350,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "saladas grandes",
+        "tipo": "Papas chip",
+        "tamaño": 500,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "doradas con queso pequeñas",
+        "tipo": "Papas chip",
+        "tamaño": 200,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "doradas con queso medianas",
+        "tipo": "Papas chip",
+        "tamaño": 350,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "doradas con queso grandes",
+        "tipo": "Papas chip",
+        "tamaño": 500,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "Super papas",
+        "tipo": "Papas fritas",
+        "tamaño": 150,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "Papas",
+        "tipo": "Papas fritas",
+        "tamaño": 100,
+        "unidad": "gramos"
+      },
+      {
+        "nombre": "Cola Negra",
+        "tipo": "Refresco",
+        "tamaño": 350,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Kolita",
+        "tipo": "Refresco",
+        "tamaño": 350,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Té helado",
+        "tipo": "Refesco",
+        "tamaño": 350,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Naranjada",
+        "tipo": "Refresco",
+        "tamaño": 350,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Limonada",
+        "tipo": "Jugo",
+        "tamaño": 250,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Manzana",
+        "tipo": "Jugo",
+        "tamaño": 250,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Naranja",
+        "tipo": "Jugo",
+        "tamaño": 250,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "Pera",
+        "tipo": "Jugo",
+        "tamaño": 250,
+        "unidad": "mililitros"
+      },
+      {
+        "nombre": "No vendemos alcohol",
+        "tipo": "Alcohol",
+        "tamaño": 500,
+        "unidad": "mililitros"
+      }
+    ]
+  },
+  {
+    "Categoria": "Salsa",
+    "Opciones": [
+      {
+        "nombre": "ketchup",
+        "base": "tomate",
+        "color": "rojo"
+      },
+      {
+        "nombre": "mayonesa",
+        "base": "aceite",
+        "color": "blanco"
+      },
+      {
+        "nombre": "BBQ",
+        "base": "azucar morena",
+        "color": "marrón"
+      },
+      {
+        "nombre": "mostaza",
+        "base": "mostaza",
+        "color": "amarillo"
+      },
+      {
+        "nombre": "relish",
+        "base": "pepino",
+        "color": "verde"
+      }
+    ]
+  },
+  {
+    "Categoria": "toppings",
+    "Opciones": [
+      {
+        "nombre": "tomate",
+        "tipo": "vegetal",
+        "presentación": "cuadritos"
+      },
+      {
+        "nombre": "cebolla",
+        "tipo": "vegetal",
+        "presentación": "cuadritos"
+      },
+      {
+        "nombre": "repollo",
+        "tipo": "vegetal",
+        "presentación": "rallado"
+      },
+      {
+        "nombre": "cilantro",
+        "tipo": "vegetal",
+        "presentación": "picadito"
+      },
+      {
+        "nombre": "papitas",
+        "tipo": "fritura",
+        "presentación": "picadito"
+      },
+      {
+        "nombre": "nuez moscada",
+        "tipo": "nuez",
+        "presentación": "moscada"
+      }
+    ]
+  }
+]

@@ -6,6 +6,15 @@ class Ingredient():
         self.size = size
         self.unit = unit
 
+    def mostrar(self):
+        """
+        Muestra informacion de los atributos por categoria
+        """
+        print(f"\n--Ingrediente: {self.name}--\n"
+              f"Tipo: {self.type}\n"
+              f"Tamaño: {self.size}\n"
+              f"Unidad: {self.unit}\n")
+
 class Bread(Ingredient):
 
     def __init__(self, name, type, size, unit):

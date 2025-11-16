@@ -11,6 +11,8 @@ class Hotdog():
         self.sides =sides
 
     def mostrar(self):
+        """
+        Muestra la informacion del hotdog creado"""
         def _name(x):
             # Si el ingrediente es un objeto con atributo name, usarlo; si es lista, mapear nombres
             try:

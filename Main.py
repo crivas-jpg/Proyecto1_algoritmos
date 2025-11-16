@@ -1,6 +1,7 @@
 from funciones import*
 from Ingredientes import *
 from Hotdog import *
+import json
 
 
 def main():
@@ -12,6 +13,10 @@ def main():
     """
     menu = construir_menu()
     ingredientes=construir_ingredientes()
+
+    # Archivo json para guardar los ingredientes al finalizar la corrida 
+    # del programa
+    file = "ingredientes.json"
 
     """"
     Se crea el inventario.
@@ -32,7 +37,7 @@ def main():
         
         if opcion=="1" :
             print("\n---Gestion de ingredientes---\n")
-            gestion_ingredientes(ingredientes)
+            gestion_ingredientes(ingredientes, menu, inventario)
         elif opcion=="2":
             print("\n---Gestion de inventario---\n")
             gestion_inventario (ingredientes,inventario)
@@ -46,6 +51,8 @@ def main():
 
         elif opcion=="6":
             print("\nGracias por visitar Hot Dog CCS!\n")
+            escribrir_datos_json(file,ingredientes)
+            print("\nIngredientes guardados exitosamente en el archivo ingredientes.json !\n")
             break
 
 
