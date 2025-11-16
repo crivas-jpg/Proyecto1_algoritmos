@@ -25,7 +25,7 @@ def main():
         Cabe destacar que el 100 es flexible para unidades (de salchichas, panes y acompañantes)
         y 100 porciones de salsas o toppings
     """
-    inventario = {}
+    invntario = {}
     for i, n in enumerate(ingredientes):
             inventario[i+1] = [n.name,100]
     
@@ -46,6 +46,7 @@ def main():
             gestion_menu (menu,ingredientes,inventario)
         elif opcion=="4":
             print("\n---Simular dia de ventas---\n")
+            simular_dia(Hotdog, inventario):
         elif opcion=="5":
             print("\n---Módulo de estadísticas---\n ")
 
