@@ -990,3 +990,84 @@ def escribrir_datos_json(file,ingredientes):
             json.dump(salida, f, indent=2)
     except Exception as e:
         print(f"Error al escribir JSON en {file}: {e}")
+
+import random
+
+def simular_dia(Hotdog, inventario_inicial):
+    # Copia del inventario para reiniciar cada simulación
+    inventario = inventario_inicial.copy()
+
+# Variables de control
+total_hot_dogs = 0
+clientes_cambiaron = 0
+clientes_sin_compra = 0
+ventas_por_tipo = {nombre: 0 for nombre in Hotdog.keys()}
+hotdogs_fallidos = []
+ingredientes_fallidos = []
+acompanantes_vendidos = 0
+
+# Simulación de clientes
+clientes_del_dia = random.randint(0, 200)
+print(f"Hoy llegaron {clientes_del_dia} clientes.\n")
+
+for i in range(clientes_del_dia):
+    hot_dogs = random.randint(0, 5)
+
+    if hot_dogs == 0:
+        print(f"El cliente {i} cambió de opinión")
+        clientes_cambiaron += 1
+        continue
+
+    print(f"\nCliente {i}: quiere {hot_dogs} hot dogs")
+    seleccionados = []
+    orden_valida = True
+
+    for j in range(hot_dogs):
+        seleccion = random.choice(list(Hotdog.keys()))
+        detalle = Hotdog[seleccion]
+
+        # Verificar inventario
+        for ingrediente in detalle["Bread"] + detalle["Sausage"] + detalle["Topping"] + detalle["Sauce"] + detalle["Side"]:
+            if inventario.get(ingrediente, 0) <= 0:
+                print(f"   No se pudo preparar '{seleccion.upper()}' por falta de: {ingrediente}")
+                print(f"   El cliente {i} se marchó sin llevarse nada")
+                clientes_sin_compra += 1
+                hotdogs_fallidos.append(seleccion)
+                ingredientes_fallidos.append(ingrediente)
+                orden_valida = False
+                break
+
+        if not orden_valida:
+            break
+
+        # Restar inventario
+        for ingrediente in detalle["Bread"] + detalle["Sausage"] + detalle["Topping"] + detalle["Sauce"] + detalle["Side"]:
+            inventario[ingrediente] -= 1
+
+        # Acompañante adicional
+        adicional = random.choice([True, False])
+        if adicional:
+            acompanantes_vendidos += 1
+
+        # Contar acompañantes del combo
+        acompanantes_vendidos += len(detalle["Side"])
+
+        print(f"   Hot dog {j+1}: {seleccion.upper()} (Acompañante adicional: {'Sí' if adicional else 'No'})")
+        seleccionados.append(seleccion)
+        ventas_por_tipo[seleccion] += 1
+
+    if orden_valida:
+        total_hot_dogs += hot_dogs
+        print(f"    Cliente {i} compró: {', '.join(seleccionados)}")
+
+# --- Reporte final ---
+print("\n--- RESUMEN DEL DÍA ---")
+print(f"Total de clientes: {clientes_del_dia}")
+print(f"Clientes que cambiaron de opinión: {clientes_cambiaron}")
+print(f"Clientes que no pudieron comprar: {clientes_sin_compra}")
+print(f"Total de hot dogs vendidos: {total_hot_dogs}")
+print(f"Promedio de hot dogs por cliente: {total_hot_dogs / clientes_del_dia if clientes_del_dia > 0 else 0:.2f}")
+print(f"Hot dog más vendido: {max(ventas_por_tipo, key=ventas_por_tipo.get)}")
+print(f"Hot dogs que causaron que clientes se marcharan: {set(hotdogs_fallidos) if hotdogs_fallidos else 'Ninguno'}")
+print(f"Ingredientes que causaron que clientes se marcharan: {set(ingredientes_fallidos) if ingredientes_fallidos else 'Ninguno'}")
+print(f"Acompañantes vendidos (incluyendo combos): {acompanantes_vendidos}")
