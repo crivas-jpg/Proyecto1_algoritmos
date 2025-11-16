@@ -754,18 +754,32 @@ def gestion_menu (menu,ingredientes,inventario):
         Retorna: Mensaje de confirmacion
         """
         print("\nEliminar un hot dog\n")
-
-        print("\nEliminar un ingrediente\n")
         for i, n in enumerate(menu):
             print(f"{i+1}. {n.name.capitalize()}")
 
         print("\n")
         borrar=input("Ingresa el numero del hotdog que deseas eliminar: ")
-        while borrar.isnumeric() == False or int(borrar) not in range(0, len(menu)+1):
+        while borrar.isnumeric() == False or int(borrar) not in range(1, len(menu)+1):
             borrar=input("ERROR. Ingresa el numero del hotdog que deseas eliminar: ")
 
-        menu.pop(int(borrar)-1)
-        print("\nEliminado correctamente!\n")
+        idx = int(borrar)-1
+        hot = menu[idx]
+        # verificar si hay suficiente inventario para seguir vendiendo este hotdog
+        puede_vender = verificar_inventario_hotdog(hot, ingredientes, inventario)
+        if puede_vender:
+            # si hay inventario, pedir confirmación antes de eliminar
+            resp = input("Advertencia: aún hay inventario suficiente para vender este hotdog.\n¿Deseas eliminarlo de todas formas? (s/n): ").strip().lower()
+            while resp not in ('s','n','si','no'):
+                resp = input("Entrada inválida. Responde 's' para sí o 'n' para no: ").strip().lower()
+            if not resp.startswith('s'):
+                print("\nEliminación cancelada.\n")
+            else:
+                menu.pop(idx)
+                print("\nEliminado correctamente!\n")
+        else:
+            # no hay inventario suficiente -> eliminar sin preguntar
+            menu.pop(idx)
+            print("\nEliminado correctamente!\n")
 
     elif opcion_3=="5":
         print("\nVolver a menu principal\n")
