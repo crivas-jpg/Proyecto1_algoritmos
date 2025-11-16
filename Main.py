@@ -1,6 +1,6 @@
 from funciones import*
 from Ingredientes import *
-from Menu import *
+from Hotdog import *
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
             gestion_inventario (ingredientes,inventario)
         elif opcion=="3":
             print("\n---Gestion de menu---\n")
-            gestion_menu (menu)
+            gestion_menu (menu,ingredientes,inventario)
         elif opcion=="4":
             print("\n---Simular dia de ventas---\n")
         elif opcion=="5":
@@ -49,7 +49,7 @@ def main():
             break
 
 
-def gestion_menu (menu):
+def gestion_menu (menu,ingredientes,inventario):
     """
     Modulo 3 del programa
     Recibe: Input de opciones del modulo
@@ -74,10 +74,37 @@ def gestion_menu (menu):
     elif opcion_3=="2":
         print("\nVer, para un hot dog específico, si hay suficiente inventario para venderlo\n")
 
+        # Listar hotdogs y permitir seleccionar uno para verificar inventario
+        for i, h in enumerate(menu):
+            print(f"{i+1}. {h.name.capitalize()}")
+
+        print("\n")
+        num = input("Ingrese el número del hotdog a verificar: ")
+        while num.isnumeric() == False or int(num) not in range(1, len(menu)+1):
+            num = input("ERROR. Ingresa el numero del hotdog que verificar: ")
+
+        hot = menu[int(num)-1]
+        # Usar la función de funciones.py para verificar inventario
+        verificar_inventario_hotdog(hot, ingredientes, inventario)
+        
 
     elif opcion_3=="3":
         print("\nAgregar un nuevo hot dog\n")
+        # Llamar a la función que crea un hotdog interactivo
+        try:
+            crear_hotdog(menu, ingredientes, inventario)
+        except Exception as e:
+            print(f"Ocurrió un error al crear el hotdog: {e}")
+
+
+
     elif opcion_3=="4":
+        """
+        Esta opcion enumera todos los hotdogs del menu y le permite
+        seleccionar al usuario cual eliminar
+        Recibe: Input de numero de hotdog deseado
+        Retorna: Mensaje de confirmacion
+        """
         print("\nEliminar un hot dog\n")
 
         print("\nEliminar un ingrediente\n")
