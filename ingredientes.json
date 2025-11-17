@@ -5,55 +5,55 @@
       {
         "nombre": "simple",
         "tipo": "blanco",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "integral",
         "tipo": "trigo entero",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "especial",
         "tipo": "queso",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "grande",
         "tipo": "blanco",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "italiano",
         "tipo": "oregano",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "sin gluten",
         "tipo": "arroz",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "saludable",
         "tipo": "avena",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "gigante",
-        "tipo": "ajonjolí",
-        "tamaño": 12,
+        "tipo": "ajonjol\u00ed",
+        "tama\u00f1o": 12,
         "unidad": "pulgadas"
       },
       {
         "nombre": "submarino",
         "tipo": "blanco",
-        "tamaño": 12,
+        "tama\u00f1o": 12,
         "unidad": "pulgadas"
       }
     ]
@@ -64,162 +64,162 @@
       {
         "nombre": "weiner",
         "tipo": "cerdo",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "breakfast",
         "tipo": "res",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "alemana",
         "tipo": "cerdo",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "francesa",
         "tipo": "res",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "polaca",
         "tipo": "mezcla",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "light",
         "tipo": "pollo",
-        "tamaño": 6,
+        "tama\u00f1o": 6,
         "unidad": "pulgadas"
       },
       {
         "nombre": "boudin",
         "tipo": "pollo",
-        "tamaño": 9,
+        "tama\u00f1o": 9,
         "unidad": "pulgadas"
       },
       {
         "nombre": "vienna",
         "tipo": "mezcla",
-        "tamaño": 12,
+        "tama\u00f1o": 12,
         "unidad": "pulgadas"
       },
       {
         "nombre": "salicce",
         "tipo": "cerdo",
-        "tamaño": 12,
+        "tama\u00f1o": 12,
         "unidad": "pulgadas"
       }
     ]
   },
   {
-    "Categoria": "Acompañante",
+    "Categoria": "Acompa\u00f1ante",
     "Opciones": [
       {
-        "nombre": "saladas pequeñas",
+        "nombre": "saladas peque\u00f1as",
         "tipo": "Papas chip",
-        "tamaño": 200,
+        "tama\u00f1o": 200,
         "unidad": "gramos"
       },
       {
         "nombre": "saladas medianas",
         "tipo": "Papas chip",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "gramos"
       },
       {
         "nombre": "saladas grandes",
         "tipo": "Papas chip",
-        "tamaño": 500,
+        "tama\u00f1o": 500,
         "unidad": "gramos"
       },
       {
-        "nombre": "doradas con queso pequeñas",
+        "nombre": "doradas con queso peque\u00f1as",
         "tipo": "Papas chip",
-        "tamaño": 200,
+        "tama\u00f1o": 200,
         "unidad": "gramos"
       },
       {
         "nombre": "doradas con queso medianas",
         "tipo": "Papas chip",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "gramos"
       },
       {
         "nombre": "doradas con queso grandes",
         "tipo": "Papas chip",
-        "tamaño": 500,
+        "tama\u00f1o": 500,
         "unidad": "gramos"
       },
       {
         "nombre": "Super papas",
         "tipo": "Papas fritas",
-        "tamaño": 150,
+        "tama\u00f1o": 150,
         "unidad": "gramos"
       },
       {
         "nombre": "Papas",
         "tipo": "Papas fritas",
-        "tamaño": 100,
+        "tama\u00f1o": 100,
         "unidad": "gramos"
       },
       {
         "nombre": "Cola Negra",
         "tipo": "Refresco",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "mililitros"
       },
       {
         "nombre": "Kolita",
         "tipo": "Refresco",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "mililitros"
       },
       {
-        "nombre": "Té helado",
+        "nombre": "T\u00e9 helado",
         "tipo": "Refesco",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "mililitros"
       },
       {
         "nombre": "Naranjada",
         "tipo": "Refresco",
-        "tamaño": 350,
+        "tama\u00f1o": 350,
         "unidad": "mililitros"
       },
       {
         "nombre": "Limonada",
         "tipo": "Jugo",
-        "tamaño": 250,
+        "tama\u00f1o": 250,
         "unidad": "mililitros"
       },
       {
         "nombre": "Manzana",
         "tipo": "Jugo",
-        "tamaño": 250,
+        "tama\u00f1o": 250,
         "unidad": "mililitros"
       },
       {
         "nombre": "Naranja",
         "tipo": "Jugo",
-        "tamaño": 250,
+        "tama\u00f1o": 250,
         "unidad": "mililitros"
       },
       {
         "nombre": "Pera",
         "tipo": "Jugo",
-        "tamaño": 250,
+        "tama\u00f1o": 250,
         "unidad": "mililitros"
       },
       {
         "nombre": "No vendemos alcohol",
         "tipo": "Alcohol",
-        "tamaño": 500,
+        "tama\u00f1o": 500,
         "unidad": "mililitros"
       }
     ]
@@ -240,7 +240,7 @@
       {
         "nombre": "BBQ",
         "base": "azucar morena",
-        "color": "marrón"
+        "color": "marr\u00f3n"
       },
       {
         "nombre": "mostaza",
@@ -260,32 +260,32 @@
       {
         "nombre": "tomate",
         "tipo": "vegetal",
-        "presentación": "cuadritos"
+        "presentaci\u00f3n": "cuadritos"
       },
       {
         "nombre": "cebolla",
         "tipo": "vegetal",
-        "presentación": "cuadritos"
+        "presentaci\u00f3n": "cuadritos"
       },
       {
         "nombre": "repollo",
         "tipo": "vegetal",
-        "presentación": "rallado"
+        "presentaci\u00f3n": "rallado"
       },
       {
         "nombre": "cilantro",
         "tipo": "vegetal",
-        "presentación": "picadito"
+        "presentaci\u00f3n": "picadito"
       },
       {
         "nombre": "papitas",
         "tipo": "fritura",
-        "presentación": "picadito"
+        "presentaci\u00f3n": "picadito"
       },
       {
         "nombre": "nuez moscada",
         "tipo": "nuez",
-        "presentación": "moscada"
+        "presentaci\u00f3n": "moscada"
       }
     ]
   }

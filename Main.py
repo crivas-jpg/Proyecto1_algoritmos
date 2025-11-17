@@ -2,6 +2,7 @@ from funciones import*
 from Ingredientes import *
 from Hotdog import *
 import json
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -46,9 +47,10 @@ def main():
             gestion_menu (menu,ingredientes,inventario)
         elif opcion=="4":
             print("\n---Simular dia de ventas---\n")
+            ventas(menu,ingredientes,inventario)
         elif opcion=="5":
             print("\n---Módulo de estadísticas---\n ")
-
+            estadisticas_ventas()
         elif opcion=="6":
             print("\nGracias por visitar Hot Dog CCS!\n")
             escribrir_datos_json(file,ingredientes)

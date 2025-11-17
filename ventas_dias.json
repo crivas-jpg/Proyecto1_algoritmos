@@ -1,0 +1,539 @@
+[
+  {
+    "total_clientes": 179,
+    "clientes_satisfechos": 63,
+    "clientes_rechazados": 86,
+    "clientes_cambio_opinion": 30,
+    "total_hotdogs_vendidos": 168,
+    "promedio_hotdogs": 2.6666666666666665,
+    "hotdog_mas_vendido": "simple",
+    "total_acompa_general": 214,
+    "detalles_hotdogs_vendidos": [
+      {
+        "nombre": "simple",
+        "cantidad": 22
+      },
+      {
+        "nombre": "varsovia",
+        "cantidad": 22
+      },
+      {
+        "nombre": "coctel",
+        "cantidad": 19
+      },
+      {
+        "nombre": "coliseo",
+        "cantidad": 18
+      },
+      {
+        "nombre": "fitness",
+        "cantidad": 17
+      },
+      {
+        "nombre": "soirée",
+        "cantidad": 16
+      },
+      {
+        "nombre": "bonjour",
+        "cantidad": 16
+      },
+      {
+        "nombre": "inglés",
+        "cantidad": 15
+      },
+      {
+        "nombre": "mama mia",
+        "cantidad": 12
+      },
+      {
+        "nombre": "lederhosen",
+        "cantidad": 11
+      }
+    ],
+    "clientes_rechazados_detalle": [
+      {
+        "id": 66,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 67,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 68,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 71,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 72,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 73,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 75,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 78,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 79,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 81,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 82,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 83,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 84,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 85,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 87,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 88,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 89,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 90,
+        "hotdog": "inglés",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 91,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 92,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 93,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 94,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 99,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 100,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 101,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 103,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 104,
+        "hotdog": "simple",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 105,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 106,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 107,
+        "hotdog": "simple",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 109,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 110,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 111,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 113,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 114,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 115,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 116,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 117,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 118,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 120,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 121,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 122,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 124,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 125,
+        "hotdog": "bonjour",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 126,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 128,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 133,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 134,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 135,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 136,
+        "hotdog": "simple",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 137,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 139,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 141,
+        "hotdog": "bonjour",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 142,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 143,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 145,
+        "hotdog": "simple",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 146,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 147,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 148,
+        "hotdog": "bonjour",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 149,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 150,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 151,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 152,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 153,
+        "hotdog": "soirée",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 154,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 155,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 156,
+        "hotdog": "inglés",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 157,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 158,
+        "hotdog": "bonjour",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 159,
+        "hotdog": "varsovia",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 161,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 162,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 163,
+        "hotdog": "inglés",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 164,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 165,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 166,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 168,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 169,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 170,
+        "hotdog": "coliseo",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 171,
+        "hotdog": "lederhosen",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 172,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 173,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 174,
+        "hotdog": "mama mia",
+        "ingrediente": "tomate"
+      },
+      {
+        "id": 176,
+        "hotdog": "fitness",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 177,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      },
+      {
+        "id": 178,
+        "hotdog": "coctel",
+        "ingrediente": "cilantro"
+      }
+    ]
+  },
+  {
+    "total_clientes": 15,
+    "clientes_satisfechos": 11,
+    "clientes_rechazados": 0,
+    "clientes_cambio_opinion": 4,
+    "total_hotdogs_vendidos": 30,
+    "promedio_hotdogs": 2.727272727272727,
+    "hotdog_mas_vendido": "coctel",
+    "total_acompa_general": 39,
+    "detalles_hotdogs_vendidos": [
+      {
+        "nombre": "coctel",
+        "cantidad": 5
+      },
+      {
+        "nombre": "mama mia",
+        "cantidad": 4
+      },
+      {
+        "nombre": "fitness",
+        "cantidad": 3
+      },
+      {
+        "nombre": "coliseo",
+        "cantidad": 3
+      },
+      {
+        "nombre": "simple",
+        "cantidad": 3
+      },
+      {
+        "nombre": "varsovia",
+        "cantidad": 3
+      },
+      {
+        "nombre": "soirée",
+        "cantidad": 3
+      },
+      {
+        "nombre": "bonjour",
+        "cantidad": 2
+      },
+      {
+        "nombre": "lederhosen",
+        "cantidad": 2
+      },
+      {
+        "nombre": "inglés",
+        "cantidad": 2
+      }
+    ],
+    "clientes_rechazados_detalle": []
+  }
+]

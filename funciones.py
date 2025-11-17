@@ -3,6 +3,8 @@ import json
 from Hotdog import *
 from Ingredientes import *
 import json
+import matplotlib.pyplot as plt
+import os
 
 # urls de los ingredientes y el menu
 url_ingredientes = "http://raw.githubusercontent.com/FernandoSapient/BPTSP05_2526-1/refs/heads/main/ingredientes.json"
@@ -266,11 +268,7 @@ def crear_hotdog(menu, ingredientes, inventario):
     nuevo = Hotdog(name, bread, sausage, topping, sauce, side)
 
     # Validar longitudes mediante método de la clase Hotdog (pide confirmación si no coinciden)
-    try:
-        ok_long = nuevo.validadr_longitud()
-    except Exception:
-        ok_long = nuevo.verificar_longitud()
-
+    ok_long = nuevo.validadr_longitud()
     if not ok_long:
         print("\nNo se confirmó la longitud del hotdog. Registro cancelado.\n")
         return None
@@ -554,12 +552,21 @@ def gestion_ingredientes (ingredientes, menu, inventario):
             if Listado == "1":
                 pan = Bread(name,type,size,unit)
                 ingredientes.append(pan)
+                # Agregar al inventario con cantidad inicial de 100
+                nuevo_id = max(inventario.keys()) + 1 if inventario else 1
+                inventario[nuevo_id] = [name, 100]
             elif Listado == "2":
                 salchicha=Sausage(name,type,size,unit)
                 ingredientes.append(salchicha)
+                # Agregar al inventario con cantidad inicial de 100
+                nuevo_id = max(inventario.keys()) + 1 if inventario else 1
+                inventario[nuevo_id] = [name, 100]
             elif Listado == "3":
                 acompañante=Side(name,type,size,unit)
                 ingredientes.append(acompañante)
+                # Agregar al inventario con cantidad inicial de 100
+                nuevo_id = max(inventario.keys()) + 1 if inventario else 1
+                inventario[nuevo_id] = [name, 100]
 
         elif Listado =="4":
             name=input('Ingresa el nombre del ingrediente: ' )
@@ -567,6 +574,9 @@ def gestion_ingredientes (ingredientes, menu, inventario):
             color=input('Ingresa el color del ingrediente: ' )
             salsa=Sauce(name,base,color)
             ingredientes.append(salsa)
+            # Agregar al inventario con cantidad inicial de 100
+            nuevo_id = max(inventario.keys()) + 1 if inventario else 1
+            inventario[nuevo_id] = [name, 100]
 
         elif Listado == "5":
             name=input('Ingresa el nombre del ingrediente: ' )
@@ -574,6 +584,9 @@ def gestion_ingredientes (ingredientes, menu, inventario):
             presentation=input('Ingresa la presentación del ingrediente: ' )
             topping=Topping(name,type,presentation)
             ingredientes.append(topping)
+            # Agregar al inventario con cantidad inicial de 100
+            nuevo_id = max(inventario.keys()) + 1 if inventario else 1
+            inventario[nuevo_id] = [name, 100]
 
         print ('\nIngrediente agregado con exito!\n')
         
@@ -698,7 +711,9 @@ def gestion_inventario (ingredientes,inventario):
         print("\nVisualizar todo el inventario\n")
 
         for key,value in inventario.items():
-            print(f"{key}. {value[0].capitalize()}: {value[1]}")
+            # Mostrar 0 si el inventario es negativo
+            cantidad = max(0, value[1])
+            print(f"{key}. {value[0].capitalize()}: {cantidad}")
 
         print("\n")
 
@@ -807,8 +822,13 @@ def gestion_inventario (ingredientes,inventario):
         elif opt == "2":
             for key,value in inventario.items():
                 if key == int(num):
-                    value[1] -= int(unidades)
-            print("\nSustraccion exitosa!\n")
+                    # Validar que no sea menor a 0
+                    if value[1] - int(unidades) < 0:
+                        print(f"\nError: No puedes restar {unidades} unidades. Stock disponible: {value[1]}")
+                        print("El inventario no puede ser menor a 0.\n")
+                    else:
+                        value[1] -= int(unidades)
+                        print("\nSustraccion exitosa!\n")
             
 
     elif opcion_2=="5":
@@ -990,3 +1010,436 @@ def escribrir_datos_json(file,ingredientes):
             json.dump(salida, f, indent=2)
     except Exception as e:
         print(f"Error al escribir JSON en {file}: {e}")
+
+def ventas(menu,ingredientes,inventario):
+    """
+    Simula un día de ventas aleatorio con estadísticas detalladas
+    Recibe: menu (lista de hotdogs), ingredientes (lista de ingredientes), inventario (diccionario)
+    Retorna: __. Imprime el resumen completo de ventas del día con estadísticas detalladas
+    
+    Flujo:
+    1. Genera un número aleatorio entre 0 y 200 para clientes del día
+    2. Para cada cliente, genera número aleatorio de hotdogs comprados (0 a 5)
+    3. Si compra 0, reporta que cambió de opinión
+    4. Selecciona hotdogs del menú aleatoriamente
+    5. Verifica inventario disponible
+    6. Descuenta del inventario o reporta falta de stock
+    7. Recopila estadísticas detalladas
+    """
+    import random
+    
+    # 1. Generar número aleatorio de clientes entre 0 y 200
+    numero_clientes = random.randint(0, 200)
+    print(f"Número de clientes del día: {numero_clientes}\n")
+    
+    # Inicializar contadores y estadísticas
+    clientes_satisfechos = 0
+    clientes_rechazados = 0
+    clientes_cambio_opinion = 0
+    total_hotdogs_vendidos = 0
+    total_acompa_vendidos = 0
+    hotdogs_vendidos_por_nombre = {}  # {nombre: cantidad}
+    ingredientes_faltantes = {}  # {ingrediente: cantidad_de_clientes}
+    hotdogs_causaron_marchada = {}  # {hotdog: cantidad_de_clientes}
+    lista_clientes_rechazados = []  # Lista de clientes rechazados
+    
+    # Iterar sobre cada cliente
+    for cliente_id in range(1, numero_clientes + 1):
+        
+        # 2. Seleccionar número aleatorio de hotdogs que compró (0 a 5)
+        cantidad_hotdogs = random.randint(0, 5)
+        
+        # 3. Si el cliente selecciona 0, reportar cambio de opinión
+        if cantidad_hotdogs == 0:
+            print(f"El cliente {cliente_id} cambió de opinión")
+            clientes_cambio_opinion += 1
+            continue
+        
+        print(f"\n--- Cliente {cliente_id} ---")
+        print(f"Cantidad de hotdogs que compró: {cantidad_hotdogs}")
+        
+        # Lista para guardar los hotdogs que el cliente compró en esta orden
+        hotdogs_cliente = []
+        inventario_suficiente = True
+        ingrediente_faltante = None
+        hotdog_rechazado = None
+        
+        # 4. Para cada hotdog del cliente, seleccionar uno del menú aleatoriamente
+        acompañantes_adicionales = []  # Lista para acompañantes adicionales seleccionados
+        
+        for hotdog_num in range(cantidad_hotdogs):
+            # Seleccionar hotdog aleatorio del menú
+            hotdog_seleccionado = random.choice(menu)
+            hotdogs_cliente.append(hotdog_seleccionado)
+            
+            # 5. Seleccionar aleatoriamente si el cliente compró un acompañante adicional
+            # 50% de probabilidad de que compre acompañante adicional
+            compra_acompañante_adicional = random.choice([True, False])
+            if compra_acompañante_adicional:
+                # Seleccionar un acompañante aleatorio de los disponibles
+                acompañantes_disponibles = [ing for ing in ingredientes if isinstance(ing, Side)]
+                if acompañantes_disponibles:
+                    acompañante_adicional = random.choice(acompañantes_disponibles)
+                    acompañantes_adicionales.append(acompañante_adicional)
+        
+        # 6. Revisar si hay suficiente inventario para toda la orden
+        # Agregar acompañantes adicionales a la verificación
+        todos_ingredientes = acompañantes_adicionales.copy()
+        
+        # Primero, hacer una revisión sin descontar para saber si hay suficiente
+        for hotdog in hotdogs_cliente:
+            # Obtener ingredientes del hotdog
+            ingredientes_hotdog = []
+            
+            # Agregar pan
+            if hotdog.bread is not None:
+                ingredientes_hotdog.append(hotdog.bread)
+            # Agregar salchicha
+            if hotdog.sausage is not None:
+                ingredientes_hotdog.append(hotdog.sausage)
+            # Agregar sides si existen
+            if hotdog.sides is not None:
+                if isinstance(hotdog.sides, list):
+                    ingredientes_hotdog.extend(hotdog.sides)
+                else:
+                    ingredientes_hotdog.append(hotdog.sides)
+            # Agregar sauces si existen
+            if hotdog.sauces is not None:
+                if isinstance(hotdog.sauces, list):
+                    ingredientes_hotdog.extend(hotdog.sauces)
+                else:
+                    ingredientes_hotdog.append(hotdog.sauces)
+            # Agregar toppings si existen
+            if hotdog.toppings is not None:
+                if isinstance(hotdog.toppings, list):
+                    ingredientes_hotdog.extend(hotdog.toppings)
+                else:
+                    ingredientes_hotdog.append(hotdog.toppings)
+            
+            # Agregar todos los ingredientes del hotdog a la lista de verificación
+            todos_ingredientes.extend(ingredientes_hotdog)
+        
+        # Verificar inventario para cada ingrediente
+        for ing in todos_ingredientes:
+            nombre_ing = getattr(ing, 'name', str(ing))
+            # Buscar en el inventario
+            encontrado = False
+            for key, value in inventario.items():
+                if value[0].lower() == nombre_ing.lower():
+                    # Verificar si hay al menos 1 unidad disponible
+                    if value[1] < 1:
+                        inventario_suficiente = False
+                        ingrediente_faltante = nombre_ing
+                        hotdog_rechazado = "Acompañante adicional" if ing in acompañantes_adicionales else hotdog.name
+                    encontrado = True
+                    break
+            if not encontrado:
+                inventario_suficiente = False
+                ingrediente_faltante = nombre_ing
+                hotdog_rechazado = "Acompañante adicional" if ing in acompañantes_adicionales else hotdog.name
+        
+        # 6a. Si hay inventario suficiente, descontar y reportar
+        if inventario_suficiente:
+            # Descontar inventario para cada hotdog comprado
+            for hotdog in hotdogs_cliente:
+                # Obtener ingredientes del hotdog nuevamente
+                ingredientes_hotdog = []
+                if hotdog.bread is not None:
+                    ingredientes_hotdog.append(hotdog.bread)
+                if hotdog.sausage is not None:
+                    ingredientes_hotdog.append(hotdog.sausage)
+                if hotdog.sides is not None:
+                    if isinstance(hotdog.sides, list):
+                        ingredientes_hotdog.extend(hotdog.sides)
+                    else:
+                        ingredientes_hotdog.append(hotdog.sides)
+                if hotdog.sauces is not None:
+                    if isinstance(hotdog.sauces, list):
+                        ingredientes_hotdog.extend(hotdog.sauces)
+                    else:
+                        ingredientes_hotdog.append(hotdog.sauces)
+                if hotdog.toppings is not None:
+                    if isinstance(hotdog.toppings, list):
+                        ingredientes_hotdog.extend(hotdog.toppings)
+                    else:
+                        ingredientes_hotdog.append(hotdog.toppings)
+                
+                # Descontar cada ingrediente del inventario
+                for ing in ingredientes_hotdog:
+                    nombre_ing = getattr(ing, 'name', str(ing))
+                    for key, value in inventario.items():
+                        if value[0].lower() == nombre_ing.lower():
+                            value[1] -= 1
+                            break
+            
+            # Descontar acompañantes adicionales del inventario
+            acompa_adicionales_vendidos = 0
+            for acompañante in acompañantes_adicionales:
+                nombre_acompañante = getattr(acompañante, 'name', str(acompañante))
+                for key, value in inventario.items():
+                    if value[0].lower() == nombre_acompañante.lower():
+                        value[1] -= 1
+                        acompa_adicionales_vendidos += 1
+                        break
+            
+            # Mostrar hotdogs comprados por el cliente
+            print(f"Hotdogs comprados por el cliente {cliente_id}:")
+            for i, hotdog in enumerate(hotdogs_cliente, start=1):
+                print(f"  {i}. {hotdog.name}")
+                # Contabilizar hotdogs vendidos
+                if hotdog.name in hotdogs_vendidos_por_nombre:
+                    hotdogs_vendidos_por_nombre[hotdog.name] += 1
+                else:
+                    hotdogs_vendidos_por_nombre[hotdog.name] = 1
+            
+            # Mostrar acompañantes adicionales si los hay
+            if acompañantes_adicionales:
+                print(f"Acompañantes adicionales:")
+                for i, acompañante in enumerate(acompañantes_adicionales, start=1):
+                    print(f"  {i}. {acompañante.name}")
+            
+            # Resumen del cliente
+            print(f"Resumen cliente {cliente_id}:")
+            print(f"  - Hotdogs comprados: {len(hotdogs_cliente)}")
+            print(f"  - Acompañantes adicionales: {acompa_adicionales_vendidos}")
+            print(f"  - Total acompañantes (incluyendo combos): {len(acompañantes_adicionales) + len([ing for hotdog in hotdogs_cliente for ing in (hotdog.sides if isinstance(hotdog.sides, list) else [hotdog.sides] if hotdog.sides else [])])}")
+            
+            clientes_satisfechos += 1
+            total_hotdogs_vendidos += len(hotdogs_cliente)
+            total_acompa_vendidos += acompa_adicionales_vendidos
+        
+        # 6b. Si NO hay inventario suficiente, reportar y no compra nada
+        else:
+            print(f"No hay inventario suficiente para el cliente {cliente_id}")
+            print(f"  Hot dog no disponible: {hotdog_rechazado}")
+            print(f"  Ingrediente faltante: {ingrediente_faltante}")
+            print(f"  El cliente {cliente_id} se marchó sin llevarse nada")
+            
+            # Resumen del cliente rechazado
+            print(f"Resumen cliente {cliente_id}:")
+            print(f"  - Hotdogs intentados: {len(hotdogs_cliente)}")
+            print(f"  - Motivo de marchada: Ingrediente faltante '{ingrediente_faltante}'")
+            print(f"  - Hot dog problemático: {hotdog_rechazado}")
+            
+            # Contabilizar estadísticas de rechazo
+            if ingrediente_faltante in ingredientes_faltantes:
+                ingredientes_faltantes[ingrediente_faltante] += 1
+            else:
+                ingredientes_faltantes[ingrediente_faltante] = 1
+            
+            if hotdog_rechazado in hotdogs_causaron_marchada:
+                hotdogs_causaron_marchada[hotdog_rechazado] += 1
+            else:
+                hotdogs_causaron_marchada[hotdog_rechazado] = 1
+            
+            lista_clientes_rechazados.append({
+                'id': cliente_id,
+                'hotdog': hotdog_rechazado,
+                'ingrediente': ingrediente_faltante
+            })
+            
+            clientes_rechazados += 1
+    
+    # Calcular acompañantes totales (adicionales + incluidos en combos)
+    total_acompa_en_combos = 0
+    for hotdog_name, cantidad in hotdogs_vendidos_por_nombre.items():
+        for hotdog in menu:
+            if hotdog.name == hotdog_name:
+                # Contar sides incluidos en el hotdog
+                if hotdog.sides:
+                    if isinstance(hotdog.sides, list):
+                        total_acompa_en_combos += len(hotdog.sides) * cantidad
+                    else:
+                        total_acompa_en_combos += cantidad
+                break
+    
+    total_acompa_general = total_acompa_vendidos + total_acompa_en_combos
+    
+    # Calcular promedio de hotdogs por cliente
+    promedio_hotdogs = total_hotdogs_vendidos / clientes_satisfechos if clientes_satisfechos > 0 else 0
+    
+    # Encontrar hotdog más vendido
+    hotdog_mas_vendido = max(hotdogs_vendidos_por_nombre, key=hotdogs_vendidos_por_nombre.get) if hotdogs_vendidos_por_nombre else "Ninguno"
+    
+    # Resumen del día
+    print(f"\n\n{'='*60}")
+    print(f"         RESUMEN DEL DÍA DE VENTAS")
+    print(f"{'='*60}\n")
+    
+    print(f"ESTADÍSTICAS GENERALES:")
+    print(f"  Total de clientes: {numero_clientes}")
+    print(f"  Clientes que compraron: {clientes_satisfechos}")
+    print(f"  Clientes que no pudieron comprar: {clientes_rechazados}")
+    print(f"  Clientes que cambiaron de opinión: {clientes_cambio_opinion}")
+    
+    print(f"\nESTADÍSTICAS DE VENTAS:")
+    print(f"  Total de hotdogs vendidos: {total_hotdogs_vendidos}")
+    print(f"  Promedio de hotdogs por cliente: {promedio_hotdogs:.2f}")
+    print(f"  Hotdog más vendido: {hotdog_mas_vendido}")
+    print(f"  Acompañantes adicionales vendidos: {total_acompa_vendidos}")
+    print(f"  Acompañantes totales vendidos: {total_acompa_general}")
+    
+    print(f"\nDETALLE DE HOTDOGS VENDIDOS:")
+    for nombre, cantidad in sorted(hotdogs_vendidos_por_nombre.items(), key=lambda x: x[1], reverse=True):
+        print(f"  - {nombre}: {cantidad} vendidos")
+    
+    print(f"\nCLIENTES QUE SE MARCHARON ({clientes_rechazados}):")
+    if clientes_rechazados > 0:
+        print(f"\n  Ingredientes que causaron marchadas:")
+        for ingrediente, cantidad in sorted(ingredientes_faltantes.items(), key=lambda x: x[1], reverse=True):
+            print(f"    - {ingrediente}: {cantidad} cliente(s)")
+        
+        print(f"\n  Hotdogs que causaron marchadas:")
+        for hotdog, cantidad in sorted(hotdogs_causaron_marchada.items(), key=lambda x: x[1], reverse=True):
+            print(f"    - {hotdog}: {cantidad} cliente(s)")
+        
+        print(f"\n  Detalle de clientes rechazados:")
+        for cliente_info in lista_clientes_rechazados:
+            print(f"    - Cliente {cliente_info['id']}: Intentó {cliente_info['hotdog']}, faltaba '{cliente_info['ingrediente']}'")
+    else:
+        print(f"  ¡Ninguno! Todos los clientes fueron satisfechos.")
+    
+    print(f"\n{'='*60}\n")
+    
+    # Guardar datos de ventas en archivo JSON
+    datos_dia = {
+        "total_clientes": numero_clientes,
+        "clientes_satisfechos": clientes_satisfechos,
+        "clientes_rechazados": clientes_rechazados,
+        "clientes_cambio_opinion": clientes_cambio_opinion,
+        "total_hotdogs_vendidos": total_hotdogs_vendidos,
+        "promedio_hotdogs": promedio_hotdogs,
+        "hotdog_mas_vendido": hotdog_mas_vendido,
+        "total_acompa_general": total_acompa_general,
+        "detalles_hotdogs_vendidos": [{ "nombre": nombre, "cantidad": cantidad } for nombre, cantidad in sorted(hotdogs_vendidos_por_nombre.items(), key=lambda x: x[1], reverse=True)],
+        "clientes_rechazados_detalle": lista_clientes_rechazados
+    }
+    guardar_ventas_json(datos_dia)
+
+def guardar_ventas_json(data, filename="ventas_dias.json"):
+    """
+    Guarda la información de ventas de un día en un archivo JSON acumulativo.
+    Si el archivo existe, agrega el nuevo día; si no, lo crea.
+    Recibe: data (dict con los datos del día), filename (nombre del archivo)
+    Retorna: Nada
+    """
+    # Si el archivo existe y tiene datos, cargar y agregar; si no, crear lista nueva
+    ventas = []
+    if os.path.exists(filename) and os.path.getsize(filename) > 0:
+        with open(filename, "r", encoding="utf-8") as f:
+            try:
+                ventas = json.load(f)
+            except Exception:
+                ventas = []
+    ventas.append(data)
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(ventas, f, indent=2, ensure_ascii=False)
+
+
+def estadisticas_ventas(filename="ventas_dias.json"):
+    """
+    Lee el archivo JSON acumulativo de ventas y grafica las estadísticas de cada día usando matplotlib.
+    Requiere al menos 2 días simulados para mostrar las gráficas.
+    Las gráficas se guardan como imagen PNG en el archivo 'estadisticas_ventas.png'
+    Recibe: filename (nombre del archivo JSON)
+    Retorna: Nada. Guarda las gráficas en un archivo PNG.
+    """
+    # Verificar que el archivo existe y tiene datos
+    if not os.path.exists(filename) or os.path.getsize(filename) == 0:
+        print("No hay datos de ventas para graficar.")
+        return
+    
+    # Cargar datos del archivo JSON
+    with open(filename, "r", encoding="utf-8") as f:
+        ventas = json.load(f)
+    
+    # Verificar que hay al menos 2 días simulados
+    if len(ventas) < 2:
+        print("Se requieren al menos 2 días simulados para mostrar estadísticas.")
+        return
+    
+    # Extraer datos de cada día
+    dias = list(range(1, len(ventas)+1))
+    dias_labels = [f"Día {d}" for d in dias]
+    clientes = [v.get("total_clientes", v.get("Total de clientes", 0)) for v in ventas]
+    satisfechos = [v.get("clientes_satisfechos", v.get("Clientes que compraron", 0)) for v in ventas]
+    rechazados = [v.get("clientes_rechazados", v.get("Clientes que no pudieron comprar", 0)) for v in ventas]
+    cambio_opinion = [v.get("clientes_cambio_opinion", v.get("Clientes que cambiaron de opinión", 0)) for v in ventas]
+    hotdogs_vendidos = [v.get("total_hotdogs_vendidos", v.get("Total de hotdogs vendidos", 0)) for v in ventas]
+    promedio_hotdogs = [v.get("promedio_hotdogs", v.get("Promedio de hotdogs por cliente", 0)) for v in ventas]
+    acompa_totales = [v.get("total_acompa_general", v.get("Acompañantes totales vendidos", 0)) for v in ventas]
+
+    # Usar backend que no requiere GUI
+    plt.switch_backend('Agg')
+    
+    # Crear figura con múltiples subgráficas
+    plt.figure(figsize=(14, 10))
+    
+    # Subgráfica 1: Clientes por día (barras agrupadas)
+    plt.subplot(2, 2, 1)
+    x = range(len(dias))
+    ancho = 0.2
+    # Crear barras desplazadas para cada categoría
+    plt.bar([i - 1.5*ancho for i in x], clientes, ancho, label='Total clientes', color='blue', alpha=0.8)
+    plt.bar([i - 0.5*ancho for i in x], satisfechos, ancho, label='Satisfechos', color='green', alpha=0.8)
+    plt.bar([i + 0.5*ancho for i in x], rechazados, ancho, label='Rechazados', color='red', alpha=0.8)
+    plt.bar([i + 1.5*ancho for i in x], cambio_opinion, ancho, label='Cambio de opinión', color='orange', alpha=0.8)
+    plt.title('Clientes por día', fontsize=12, fontweight='bold')
+    plt.xlabel('Día')
+    plt.ylabel('Cantidad')
+    plt.xticks(x, dias_labels)
+    plt.legend()
+    plt.grid(True, alpha=0.3, axis='y')
+
+    # Subgráfica 2: Hotdogs vendidos y promedio (barras)
+    plt.subplot(2, 2, 2)
+    x2 = range(len(dias))
+    ancho2 = 0.35
+    plt.bar([i - ancho2/2 for i in x2], hotdogs_vendidos, ancho2, label='Hotdogs vendidos', color='orange', alpha=0.8)
+    plt.bar([i + ancho2/2 for i in x2], promedio_hotdogs, ancho2, label='Promedio por cliente', color='green', alpha=0.8)
+    plt.title('Hotdogs vendidos y promedio', fontsize=12, fontweight='bold')
+    plt.xlabel('Día')
+    plt.ylabel('Cantidad')
+    plt.xticks(x2, dias_labels)
+    plt.legend()
+    plt.grid(True, alpha=0.3, axis='y')
+
+    # Subgráfica 3: Acompañantes vendidos (barras)
+    plt.subplot(2, 2, 3)
+    plt.bar(dias_labels, acompa_totales, color='purple', alpha=0.8, edgecolor='black', linewidth=1.5)
+    plt.title('Acompañantes vendidos', fontsize=12, fontweight='bold')
+    plt.xlabel('Día')
+    plt.ylabel('Cantidad')
+    plt.grid(True, alpha=0.3, axis='y')
+    # Agregar valores sobre las barras
+    for i, v in enumerate(acompa_totales):
+        plt.text(i, v + 1, str(v), ha='center', va='bottom', fontweight='bold')
+
+    # Subgráfica 4: Resumen de estadísticas
+    plt.subplot(2, 2, 4)
+    plt.axis('off')
+    resumen_texto = f"""
+    RESUMEN DE ESTADÍSTICAS
+    ========================
+    Total de días simulados: {len(ventas)}
+    
+    Promedio de clientes por día: {sum(clientes)/len(clientes):.1f}
+    Promedio de satisfechos: {sum(satisfechos)/len(satisfechos):.1f}
+    Promedio de rechazados: {sum(rechazados)/len(rechazados):.1f}
+    
+    Total hotdogs vendidos: {sum(hotdogs_vendidos)}
+    Promedio hotdogs por día: {sum(hotdogs_vendidos)/len(ventas):.1f}
+    
+    Total acompañantes: {sum(acompa_totales)}
+    """
+    plt.text(0.1, 0.5, resumen_texto, fontsize=10, verticalalignment='center', 
+             fontfamily='monospace', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+
+    # Ajustar espaciado y guardar
+    plt.tight_layout()
+    imagen_nombre = "estadisticas_ventas.png"
+    plt.savefig(imagen_nombre, dpi=100, bbox_inches='tight')
+    print(f"\n✓ Gráficas guardadas exitosamente en '{imagen_nombre}'")
+    print("Abre el archivo para ver las estadísticas de tus ventas.\n")
+    plt.close()
+
