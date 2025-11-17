@@ -268,7 +268,7 @@ def crear_hotdog(menu, ingredientes, inventario):
     nuevo = Hotdog(name, bread, sausage, topping, sauce, side)
 
     # Validar longitudes mediante método de la clase Hotdog (pide confirmación si no coinciden)
-    ok_long = nuevo.validadr_longitud()
+    ok_long = nuevo.verificar_longitud()
     if not ok_long:
         print("\nNo se confirmó la longitud del hotdog. Registro cancelado.\n")
         return None
