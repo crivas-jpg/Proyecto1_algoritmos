@@ -535,5 +535,54 @@
       }
     ],
     "clientes_rechazados_detalle": []
+  },
+  {
+    "total_clientes": 7,
+    "clientes_satisfechos": 7,
+    "clientes_rechazados": 0,
+    "clientes_cambio_opinion": 0,
+    "total_hotdogs_vendidos": 20,
+    "promedio_hotdogs": 2.857142857142857,
+    "hotdog_mas_vendido": "fitness",
+    "total_acompa_general": 24,
+    "detalles_hotdogs_vendidos": [
+      {
+        "nombre": "fitness",
+        "cantidad": 4
+      },
+      {
+        "nombre": "inglés",
+        "cantidad": 3
+      },
+      {
+        "nombre": "soirée",
+        "cantidad": 3
+      },
+      {
+        "nombre": "simple",
+        "cantidad": 3
+      },
+      {
+        "nombre": "bonjour",
+        "cantidad": 3
+      },
+      {
+        "nombre": "mama mia",
+        "cantidad": 1
+      },
+      {
+        "nombre": "lederhosen",
+        "cantidad": 1
+      },
+      {
+        "nombre": "coliseo",
+        "cantidad": 1
+      },
+      {
+        "nombre": "coctel",
+        "cantidad": 1
+      }
+    ],
+    "clientes_rechazados_detalle": []
   }
 ]
